@@ -220,8 +220,12 @@ def _safe_storage_keychain_password(service_name: str) -> Optional[bytes]:
             capture_output=True, check=True, timeout=5,
         )
         return result.stdout.strip()
-    except (subprocess.CalledProcessError, subprocess.TimeoutExpired,
-            FileNotFoundError):
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"security lookup for '{service_name}' failed: "
+                       f"exit={e.returncode} stderr={e.stderr!r}")
+        return None
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        logger.warning(f"security lookup for '{service_name}' failed: {e!r}")
         return None
 
 
