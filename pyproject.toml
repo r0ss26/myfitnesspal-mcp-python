@@ -40,7 +40,9 @@ dependencies = [
     # server.py imports as its FastMCP base class. Pin below 2.0 until the
     # server is ported to the new API.
     "mcp>=1.0.0,<2.0.0",
-    "myfitnesspal>=2.0.0",
+    # Fork branch carrying the kilojoule search fix (coddingtonbear/python-myfitnesspal#208).
+    # Upstream is unmaintained; switch back to the PyPI release if #208 ever ships.
+    "myfitnesspal @ git+https://github.com/r0ss26/python-myfitnesspal@fix-search-kilojoules",
     "pydantic>=2.0.0",
     "httpx>=0.24.0",
     "browser-cookie3>=0.19.0",
@@ -82,3 +84,7 @@ python_version = "3.10"
 warn_return_any = true
 warn_unused_ignores = true
 
+
+[tool.hatch.metadata]
+# Needed for the git-pinned myfitnesspal dependency.
+allow-direct-references = true
